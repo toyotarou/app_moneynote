@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:isar/isar.dart';
 
+import '../../collections/bank_name.dart';
 import '../../collections/bank_price.dart';
+import '../../collections/emoney_name.dart';
 import '../../extensions/extensions.dart';
 import '../../state/bank_price_adjust/bank_price_adjust_notifier.dart';
 import 'parts/error_dialog.dart';
@@ -18,10 +20,13 @@ class Deposit {
 }
 
 class BankPriceAdjustAlert extends ConsumerStatefulWidget {
-  const BankPriceAdjustAlert({super.key, required this.isar, required this.depositNameList});
+  const BankPriceAdjustAlert({super.key, required this.isar, this.bankNameList, this.emoneyNameList});
 
   final Isar isar;
-  final List<Deposit> depositNameList;
+
+  final List<BankName>? bankNameList;
+
+  final List<EmoneyName>? emoneyNameList;
 
   @override
   ConsumerState<BankPriceAdjustAlert> createState() => _BankPriceAdjustAlertState();
@@ -89,6 +94,18 @@ class _BankPriceAdjustAlertState extends ConsumerState<BankPriceAdjustAlert> {
 
     final list = <Widget>[];
 
+    final depositNameList = <Deposit>[Deposit('', '')];
+
+    widget.bankNameList?.forEach((element) {
+      depositNameList.add(
+        Deposit('${element.depositType}-${element.id}', '${element.bankName} ${element.branchName}'),
+      );
+    });
+
+    widget.emoneyNameList?.forEach((element) {
+      depositNameList.add(Deposit('${element.depositType}-${element.id}', element.emoneyName));
+    });
+
     for (var i = 0; i < 10; i++) {
       list.add(DecoratedBox(
         decoration: BoxDecoration(
@@ -128,7 +145,7 @@ class _BankPriceAdjustAlertState extends ConsumerState<BankPriceAdjustAlert> {
                           isExpanded: true,
                           dropdownColor: Colors.pinkAccent.withOpacity(0.1),
                           iconEnabledColor: Colors.white,
-                          items: widget.depositNameList.map((e) {
+                          items: depositNameList.map((e) {
                             return DropdownMenuItem(
                               value: e.flag,
                               child: Text(e.name, style: const TextStyle(fontSize: 12)),

@@ -78,7 +78,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<EmoneyName>? emoneyNameList = [];
 
   List<Deposit> depoNameList = [];
-  List<Deposit> depositNameList = [];
 
   List<SpendItem>? _spendItemList = [];
 
@@ -108,13 +107,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     final calendarState = ref.watch(calendarProvider);
-
-    if (depoNameList.isNotEmpty) {
-      depositNameList = [];
-      depositNameList.add(Deposit('', ''));
-
-      depoNameList.forEach((element) => depositNameList.add(element));
-    }
 
     return Scaffold(
       backgroundColor: Colors.blueGrey.withOpacity(0.3),
@@ -435,7 +427,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               GestureDetector(
                 onTap: () => MoneyDialog(
                   context: context,
-                  widget: BankPriceAdjustAlert(isar: widget.isar, depositNameList: depositNameList),
+                  widget: BankPriceAdjustAlert(
+                      isar: widget.isar, bankNameList: bankNameList, emoneyNameList: emoneyNameList),
                 ),
                 child: Row(
                   children: [
