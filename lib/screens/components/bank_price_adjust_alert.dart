@@ -207,7 +207,7 @@ class _BankPriceAdjustAlertState extends ConsumerState<BankPriceAdjustAlert> {
       //===============================================
       if (bankPriceAdjustState.adjustDate[i] != '日付' &&
           bankPriceAdjustState.adjustDeposit[i] != '' &&
-          bankPriceAdjustState.adjustPrice[i] != 0) {
+          bankPriceAdjustState.adjustPrice[i] >= 0) {
         final exDeposit = bankPriceAdjustState.adjustDeposit[i].split('-');
 
         list.add(
@@ -230,7 +230,7 @@ class _BankPriceAdjustAlertState extends ConsumerState<BankPriceAdjustAlert> {
         adjustDepositCount++;
       }
 
-      if (bankPriceAdjustState.adjustPrice[i] != 0) {
+      if (bankPriceAdjustState.adjustPrice[i] >= 0) {
         adjustPriceCount++;
       }
     }

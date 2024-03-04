@@ -190,8 +190,12 @@ class _BankPriceInputAlertState extends ConsumerState<BankPriceInputAlert> {
     final depositType = (widget.bankName != null) ? widget.bankName!.depositType : widget.emoneyName!.depositType;
     final bankId = (widget.bankName != null) ? widget.bankName!.id : widget.emoneyName!.id;
 
-    final getBankPrices =
-        await bankPricesCollection.filter().depositTypeEqualTo(depositType).bankIdEqualTo(bankId).findAll();
+    final getBankPrices = await bankPricesCollection
+        .filter()
+        .depositTypeEqualTo(depositType)
+        .bankIdEqualTo(bankId)
+        .sortByDate()
+        .findAll();
 
     if (mounted) {
       setState(() => bankPriceList = getBankPrices);
