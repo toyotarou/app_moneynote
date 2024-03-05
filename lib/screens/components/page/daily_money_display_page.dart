@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:isar/isar.dart';
+import 'package:money_note/state/app_params/app_params_notifier.dart';
 
 import '../../../collections/bank_name.dart';
 import '../../../collections/bank_price.dart';
@@ -637,6 +638,8 @@ class _DailyMoneyDisplayAlertState extends ConsumerState<DailyMoneyDisplayPage> 
                     final beforeBankTotal = (_bankPriceTotalPadMap[beforeDate.yyyymmdd] != null)
                         ? _bankPriceTotalPadMap[beforeDate.yyyymmdd]
                         : 0;
+
+                    await ref.read(appParamProvider.notifier).setInputButtonClicked(flag: false);
 
                     await MoneyDialog(
                       context: context,

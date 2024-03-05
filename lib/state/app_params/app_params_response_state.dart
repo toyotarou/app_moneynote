@@ -10,5 +10,6 @@ class AppParamsResponseState with _$AppParamsResponseState {
     @Default('') String selectedIncomeYear,
     @Default(false) bool sameMonthIncomeDeleteFlag,
     @Default('') String incomeInputDate,
+    @Default(false) bool inputButtonClicked,
   }) = _AppParamsResponseState;
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:isar/isar.dart';
+import 'package:money_note/state/app_params/app_params_notifier.dart';
 
 import '../../collections/spend_item.dart';
 import '../../collections/spend_time_place.dart';
@@ -108,6 +109,8 @@ class _SpendTimePlaceInputAlertState extends ConsumerState<SpendTimePlaceInputAl
 
     Future(() => ref.read(spendTimePlaceProvider.notifier).setBaseDiff(baseDiff: widget.spend.toString()));
 
+    final inputButtonClicked = ref.watch(appParamProvider.select((value) => value.inputButtonClicked));
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -144,9 +147,16 @@ class _SpendTimePlaceInputAlertState extends ConsumerState<SpendTimePlaceInputAl
                       ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: _inputSpendTimePlace,
-                    child: Icon(Icons.input, color: Colors.greenAccent.withOpacity(0.6), size: 16),
+                  ElevatedButton(
+                    onPressed: inputButtonClicked
+                        ? null
+                        : () {
+                            _inputSpendTimePlace();
+
+                            ref.read(appParamProvider.notifier).setInputButtonClicked(flag: true);
+                          },
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.3)),
+                    child: const Text('input'),
                   ),
                 ],
               ),
